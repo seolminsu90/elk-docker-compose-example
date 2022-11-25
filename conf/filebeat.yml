@@ -1,0 +1,31 @@
+# Input 설정
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /logs/host/*.log
+
+# Kibana 설정 정보
+setup.kibana:
+  host: "kib01:5601"
+  protocol: "http"
+setup:
+  dashboards:
+    enabled: true
+    always_kibana: true #Only talk to Kibana, which is important for the retry
+    retry.enabled: true #Retry in case Kibana is not up yet (키바나가 늦게떠서)
+
+client_inactivity_timeout: 86400
+
+# ES로 출력
+#output.elasticsearch:
+#  hosts: ["es01:9200"]
+#  username: "elastic"
+#  password:
+ 
+# 별도 가공이 필요하면 logstash를 이용하는게 좋은듯?
+# Sprin boot에 별도의 logback 로그 가공기도 있다네.
+
+# Logstash 사용시
+output.logstash:
+  hosts: ["logstash:5044"]
